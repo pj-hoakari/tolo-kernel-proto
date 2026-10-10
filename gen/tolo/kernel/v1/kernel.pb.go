@@ -293,14 +293,12 @@ func (x *Graph) GetRoutes() []*Route {
 }
 
 type Point struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	PointId           string                 `protobuf:"bytes,1,opt,name=point_id,json=pointId,proto3" json:"point_id,omitempty"`
-	Type              PointType              `protobuf:"varint,2,opt,name=type,proto3,enum=tolo.kernel.v1.PointType" json:"type,omitempty"`
-	IsBoundary        bool                   `protobuf:"varint,3,opt,name=is_boundary,json=isBoundary,proto3" json:"is_boundary,omitempty"`
-	BoundaryActive    bool                   `protobuf:"varint,4,opt,name=boundary_active,json=boundaryActive,proto3" json:"boundary_active,omitempty"`
-	BoundaryDirection BoundaryDirection      `protobuf:"varint,5,opt,name=boundary_direction,json=boundaryDirection,proto3,enum=tolo.kernel.v1.BoundaryDirection" json:"boundary_direction,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PointId       string                 `protobuf:"bytes,1,opt,name=point_id,json=pointId,proto3" json:"point_id,omitempty"`
+	Type          PointType              `protobuf:"varint,2,opt,name=type,proto3,enum=tolo.kernel.v1.PointType" json:"type,omitempty"`
+	Boundary      *Boundary              `protobuf:"bytes,6,opt,name=boundary,proto3" json:"boundary,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Point) Reset() {
@@ -347,25 +345,63 @@ func (x *Point) GetType() PointType {
 	return PointType_POINT_TYPE_UNSPECIFIED
 }
 
-func (x *Point) GetIsBoundary() bool {
+func (x *Point) GetBoundary() *Boundary {
 	if x != nil {
-		return x.IsBoundary
+		return x.Boundary
 	}
-	return false
+	return nil
 }
 
-func (x *Point) GetBoundaryActive() bool {
-	if x != nil {
-		return x.BoundaryActive
-	}
-	return false
+type Boundary struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Direction     BoundaryDirection      `protobuf:"varint,1,opt,name=direction,proto3,enum=tolo.kernel.v1.BoundaryDirection" json:"direction,omitempty"`
+	Active        bool                   `protobuf:"varint,2,opt,name=active,proto3" json:"active,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Point) GetBoundaryDirection() BoundaryDirection {
+func (x *Boundary) Reset() {
+	*x = Boundary{}
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Boundary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Boundary) ProtoMessage() {}
+
+func (x *Boundary) ProtoReflect() protoreflect.Message {
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[2]
 	if x != nil {
-		return x.BoundaryDirection
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Boundary.ProtoReflect.Descriptor instead.
+func (*Boundary) Descriptor() ([]byte, []int) {
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Boundary) GetDirection() BoundaryDirection {
+	if x != nil {
+		return x.Direction
 	}
 	return BoundaryDirection_BOUNDARY_DIRECTION_UNSPECIFIED
+}
+
+func (x *Boundary) GetActive() bool {
+	if x != nil {
+		return x.Active
+	}
+	return false
 }
 
 type Route struct {
@@ -381,7 +417,7 @@ type Route struct {
 
 func (x *Route) Reset() {
 	*x = Route{}
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[2]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -393,7 +429,7 @@ func (x *Route) String() string {
 func (*Route) ProtoMessage() {}
 
 func (x *Route) ProtoReflect() protoreflect.Message {
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[2]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -406,7 +442,7 @@ func (x *Route) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Route.ProtoReflect.Descriptor instead.
 func (*Route) Descriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{2}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Route) GetRouteId() string {
@@ -458,7 +494,7 @@ type ObservationSnapshot struct {
 
 func (x *ObservationSnapshot) Reset() {
 	*x = ObservationSnapshot{}
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[3]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -470,7 +506,7 @@ func (x *ObservationSnapshot) String() string {
 func (*ObservationSnapshot) ProtoMessage() {}
 
 func (x *ObservationSnapshot) ProtoReflect() protoreflect.Message {
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[3]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -483,7 +519,7 @@ func (x *ObservationSnapshot) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ObservationSnapshot.ProtoReflect.Descriptor instead.
 func (*ObservationSnapshot) Descriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{3}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ObservationSnapshot) GetSnapshotId() string {
@@ -540,7 +576,7 @@ type PointScore struct {
 
 func (x *PointScore) Reset() {
 	*x = PointScore{}
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[4]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -552,7 +588,7 @@ func (x *PointScore) String() string {
 func (*PointScore) ProtoMessage() {}
 
 func (x *PointScore) ProtoReflect() protoreflect.Message {
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[4]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -565,7 +601,7 @@ func (x *PointScore) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PointScore.ProtoReflect.Descriptor instead.
 func (*PointScore) Descriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{4}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *PointScore) GetPointId() string {
@@ -613,7 +649,7 @@ type RouteScore struct {
 
 func (x *RouteScore) Reset() {
 	*x = RouteScore{}
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[5]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -625,7 +661,7 @@ func (x *RouteScore) String() string {
 func (*RouteScore) ProtoMessage() {}
 
 func (x *RouteScore) ProtoReflect() protoreflect.Message {
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[5]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -638,7 +674,7 @@ func (x *RouteScore) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RouteScore.ProtoReflect.Descriptor instead.
 func (*RouteScore) Descriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{5}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *RouteScore) GetRouteId() string {
@@ -720,7 +756,7 @@ type DirectionalFlow struct {
 
 func (x *DirectionalFlow) Reset() {
 	*x = DirectionalFlow{}
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[6]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -732,7 +768,7 @@ func (x *DirectionalFlow) String() string {
 func (*DirectionalFlow) ProtoMessage() {}
 
 func (x *DirectionalFlow) ProtoReflect() protoreflect.Message {
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[6]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -745,7 +781,7 @@ func (x *DirectionalFlow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DirectionalFlow.ProtoReflect.Descriptor instead.
 func (*DirectionalFlow) Descriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{6}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DirectionalFlow) GetForward() float64 {
@@ -775,7 +811,7 @@ type LocationRef struct {
 
 func (x *LocationRef) Reset() {
 	*x = LocationRef{}
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[7]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -787,7 +823,7 @@ func (x *LocationRef) String() string {
 func (*LocationRef) ProtoMessage() {}
 
 func (x *LocationRef) ProtoReflect() protoreflect.Message {
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[7]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -800,7 +836,7 @@ func (x *LocationRef) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LocationRef.ProtoReflect.Descriptor instead.
 func (*LocationRef) Descriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{7}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *LocationRef) GetTarget() isLocationRef_Target {
@@ -858,7 +894,7 @@ type GraphAnchor struct {
 
 func (x *GraphAnchor) Reset() {
 	*x = GraphAnchor{}
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[8]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -870,7 +906,7 @@ func (x *GraphAnchor) String() string {
 func (*GraphAnchor) ProtoMessage() {}
 
 func (x *GraphAnchor) ProtoReflect() protoreflect.Message {
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[8]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -883,7 +919,7 @@ func (x *GraphAnchor) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GraphAnchor.ProtoReflect.Descriptor instead.
 func (*GraphAnchor) Descriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{8}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GraphAnchor) GetTarget() isGraphAnchor_Target {
@@ -948,7 +984,7 @@ type RiskLocation struct {
 
 func (x *RiskLocation) Reset() {
 	*x = RiskLocation{}
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[9]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -960,7 +996,7 @@ func (x *RiskLocation) String() string {
 func (*RiskLocation) ProtoMessage() {}
 
 func (x *RiskLocation) ProtoReflect() protoreflect.Message {
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[9]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -973,7 +1009,7 @@ func (x *RiskLocation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RiskLocation.ProtoReflect.Descriptor instead.
 func (*RiskLocation) Descriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{9}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *RiskLocation) GetTarget() isRiskLocation_Target {
@@ -1040,7 +1076,7 @@ type DangerFlag struct {
 
 func (x *DangerFlag) Reset() {
 	*x = DangerFlag{}
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[10]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1052,7 +1088,7 @@ func (x *DangerFlag) String() string {
 func (*DangerFlag) ProtoMessage() {}
 
 func (x *DangerFlag) ProtoReflect() protoreflect.Message {
-	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[10]
+	mi := &file_tolo_kernel_v1_kernel_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1065,7 +1101,7 @@ func (x *DangerFlag) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DangerFlag.ProtoReflect.Descriptor instead.
 func (*DangerFlag) Descriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{10}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *DangerFlag) GetTarget() isDangerFlag_Target {
@@ -1140,14 +1176,14 @@ const file_tolo_kernel_v1_kernel_proto_rawDesc = "" +
 	"\vrevision_id\x18\x02 \x01(\tR\n" +
 	"revisionId\x12-\n" +
 	"\x06points\x18\x03 \x03(\v2\x15.tolo.kernel.v1.PointR\x06points\x12-\n" +
-	"\x06routes\x18\x04 \x03(\v2\x15.tolo.kernel.v1.RouteR\x06routes\"\xed\x01\n" +
+	"\x06routes\x18\x04 \x03(\v2\x15.tolo.kernel.v1.RouteR\x06routes\"\xcb\x01\n" +
 	"\x05Point\x12\x19\n" +
 	"\bpoint_id\x18\x01 \x01(\tR\apointId\x12-\n" +
-	"\x04type\x18\x02 \x01(\x0e2\x19.tolo.kernel.v1.PointTypeR\x04type\x12\x1f\n" +
-	"\vis_boundary\x18\x03 \x01(\bR\n" +
-	"isBoundary\x12'\n" +
-	"\x0fboundary_active\x18\x04 \x01(\bR\x0eboundaryActive\x12P\n" +
-	"\x12boundary_direction\x18\x05 \x01(\x0e2!.tolo.kernel.v1.BoundaryDirectionR\x11boundaryDirection\"\xe4\x01\n" +
+	"\x04type\x18\x02 \x01(\x0e2\x19.tolo.kernel.v1.PointTypeR\x04type\x124\n" +
+	"\bboundary\x18\x06 \x01(\v2\x18.tolo.kernel.v1.BoundaryR\bboundaryJ\x04\b\x03\x10\x04J\x04\b\x04\x10\x05J\x04\b\x05\x10\x06R\vis_boundaryR\x0fboundary_activeR\x12boundary_direction\"c\n" +
+	"\bBoundary\x12?\n" +
+	"\tdirection\x18\x01 \x01(\x0e2!.tolo.kernel.v1.BoundaryDirectionR\tdirection\x12\x16\n" +
+	"\x06active\x18\x02 \x01(\bR\x06active\"\xe4\x01\n" +
 	"\x05Route\x12\x19\n" +
 	"\broute_id\x18\x01 \x01(\tR\arouteId\x12\"\n" +
 	"\rfrom_point_id\x18\x02 \x01(\tR\vfromPointId\x12\x1e\n" +
@@ -1246,7 +1282,7 @@ func file_tolo_kernel_v1_kernel_proto_rawDescGZIP() []byte {
 }
 
 var file_tolo_kernel_v1_kernel_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_tolo_kernel_v1_kernel_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_tolo_kernel_v1_kernel_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_tolo_kernel_v1_kernel_proto_goTypes = []any{
 	(BoundaryDirection)(0),        // 0: tolo.kernel.v1.BoundaryDirection
 	(PointType)(0),                // 1: tolo.kernel.v1.PointType
@@ -1254,35 +1290,37 @@ var file_tolo_kernel_v1_kernel_proto_goTypes = []any{
 	(RiskKind)(0),                 // 3: tolo.kernel.v1.RiskKind
 	(*Graph)(nil),                 // 4: tolo.kernel.v1.Graph
 	(*Point)(nil),                 // 5: tolo.kernel.v1.Point
-	(*Route)(nil),                 // 6: tolo.kernel.v1.Route
-	(*ObservationSnapshot)(nil),   // 7: tolo.kernel.v1.ObservationSnapshot
-	(*PointScore)(nil),            // 8: tolo.kernel.v1.PointScore
-	(*RouteScore)(nil),            // 9: tolo.kernel.v1.RouteScore
-	(*DirectionalFlow)(nil),       // 10: tolo.kernel.v1.DirectionalFlow
-	(*LocationRef)(nil),           // 11: tolo.kernel.v1.LocationRef
-	(*GraphAnchor)(nil),           // 12: tolo.kernel.v1.GraphAnchor
-	(*RiskLocation)(nil),          // 13: tolo.kernel.v1.RiskLocation
-	(*DangerFlag)(nil),            // 14: tolo.kernel.v1.DangerFlag
-	(*timestamppb.Timestamp)(nil), // 15: google.protobuf.Timestamp
+	(*Boundary)(nil),              // 6: tolo.kernel.v1.Boundary
+	(*Route)(nil),                 // 7: tolo.kernel.v1.Route
+	(*ObservationSnapshot)(nil),   // 8: tolo.kernel.v1.ObservationSnapshot
+	(*PointScore)(nil),            // 9: tolo.kernel.v1.PointScore
+	(*RouteScore)(nil),            // 10: tolo.kernel.v1.RouteScore
+	(*DirectionalFlow)(nil),       // 11: tolo.kernel.v1.DirectionalFlow
+	(*LocationRef)(nil),           // 12: tolo.kernel.v1.LocationRef
+	(*GraphAnchor)(nil),           // 13: tolo.kernel.v1.GraphAnchor
+	(*RiskLocation)(nil),          // 14: tolo.kernel.v1.RiskLocation
+	(*DangerFlag)(nil),            // 15: tolo.kernel.v1.DangerFlag
+	(*timestamppb.Timestamp)(nil), // 16: google.protobuf.Timestamp
 }
 var file_tolo_kernel_v1_kernel_proto_depIdxs = []int32{
 	5,  // 0: tolo.kernel.v1.Graph.points:type_name -> tolo.kernel.v1.Point
-	6,  // 1: tolo.kernel.v1.Graph.routes:type_name -> tolo.kernel.v1.Route
+	7,  // 1: tolo.kernel.v1.Graph.routes:type_name -> tolo.kernel.v1.Route
 	1,  // 2: tolo.kernel.v1.Point.type:type_name -> tolo.kernel.v1.PointType
-	0,  // 3: tolo.kernel.v1.Point.boundary_direction:type_name -> tolo.kernel.v1.BoundaryDirection
-	2,  // 4: tolo.kernel.v1.Route.direction:type_name -> tolo.kernel.v1.DirectionAttribute
-	15, // 5: tolo.kernel.v1.ObservationSnapshot.window_start:type_name -> google.protobuf.Timestamp
-	15, // 6: tolo.kernel.v1.ObservationSnapshot.window_end:type_name -> google.protobuf.Timestamp
-	8,  // 7: tolo.kernel.v1.ObservationSnapshot.point_scores:type_name -> tolo.kernel.v1.PointScore
-	9,  // 8: tolo.kernel.v1.ObservationSnapshot.route_scores:type_name -> tolo.kernel.v1.RouteScore
-	10, // 9: tolo.kernel.v1.RouteScore.directional_flow:type_name -> tolo.kernel.v1.DirectionalFlow
-	3,  // 10: tolo.kernel.v1.RiskLocation.kind:type_name -> tolo.kernel.v1.RiskKind
-	15, // 11: tolo.kernel.v1.DangerFlag.operated_at:type_name -> google.protobuf.Timestamp
-	12, // [12:12] is the sub-list for method output_type
-	12, // [12:12] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	6,  // 3: tolo.kernel.v1.Point.boundary:type_name -> tolo.kernel.v1.Boundary
+	0,  // 4: tolo.kernel.v1.Boundary.direction:type_name -> tolo.kernel.v1.BoundaryDirection
+	2,  // 5: tolo.kernel.v1.Route.direction:type_name -> tolo.kernel.v1.DirectionAttribute
+	16, // 6: tolo.kernel.v1.ObservationSnapshot.window_start:type_name -> google.protobuf.Timestamp
+	16, // 7: tolo.kernel.v1.ObservationSnapshot.window_end:type_name -> google.protobuf.Timestamp
+	9,  // 8: tolo.kernel.v1.ObservationSnapshot.point_scores:type_name -> tolo.kernel.v1.PointScore
+	10, // 9: tolo.kernel.v1.ObservationSnapshot.route_scores:type_name -> tolo.kernel.v1.RouteScore
+	11, // 10: tolo.kernel.v1.RouteScore.directional_flow:type_name -> tolo.kernel.v1.DirectionalFlow
+	3,  // 11: tolo.kernel.v1.RiskLocation.kind:type_name -> tolo.kernel.v1.RiskKind
+	16, // 12: tolo.kernel.v1.DangerFlag.operated_at:type_name -> google.protobuf.Timestamp
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_tolo_kernel_v1_kernel_proto_init() }
@@ -1290,24 +1328,24 @@ func file_tolo_kernel_v1_kernel_proto_init() {
 	if File_tolo_kernel_v1_kernel_proto != nil {
 		return
 	}
-	file_tolo_kernel_v1_kernel_proto_msgTypes[2].OneofWrappers = []any{}
-	file_tolo_kernel_v1_kernel_proto_msgTypes[5].OneofWrappers = []any{
+	file_tolo_kernel_v1_kernel_proto_msgTypes[3].OneofWrappers = []any{}
+	file_tolo_kernel_v1_kernel_proto_msgTypes[6].OneofWrappers = []any{
 		(*RouteScore_DirectionalFlow)(nil),
 		(*RouteScore_ScalarFlow)(nil),
 	}
-	file_tolo_kernel_v1_kernel_proto_msgTypes[7].OneofWrappers = []any{
+	file_tolo_kernel_v1_kernel_proto_msgTypes[8].OneofWrappers = []any{
 		(*LocationRef_PointId)(nil),
 		(*LocationRef_RouteId)(nil),
 	}
-	file_tolo_kernel_v1_kernel_proto_msgTypes[8].OneofWrappers = []any{
+	file_tolo_kernel_v1_kernel_proto_msgTypes[9].OneofWrappers = []any{
 		(*GraphAnchor_PointId)(nil),
 		(*GraphAnchor_RouteId)(nil),
 	}
-	file_tolo_kernel_v1_kernel_proto_msgTypes[9].OneofWrappers = []any{
+	file_tolo_kernel_v1_kernel_proto_msgTypes[10].OneofWrappers = []any{
 		(*RiskLocation_PointId)(nil),
 		(*RiskLocation_RouteId)(nil),
 	}
-	file_tolo_kernel_v1_kernel_proto_msgTypes[10].OneofWrappers = []any{
+	file_tolo_kernel_v1_kernel_proto_msgTypes[11].OneofWrappers = []any{
 		(*DangerFlag_PointId)(nil),
 		(*DangerFlag_RouteId)(nil),
 	}
@@ -1317,7 +1355,7 @@ func file_tolo_kernel_v1_kernel_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_tolo_kernel_v1_kernel_proto_rawDesc), len(file_tolo_kernel_v1_kernel_proto_rawDesc)),
 			NumEnums:      4,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
