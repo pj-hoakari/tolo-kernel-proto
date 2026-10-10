@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://www.schemastore.org/buf.gen.json
+version: v2
+clean: true
+plugins:
+    - local: ["go", "tool", "protoc-gen-go"]
+      out: gen
+      opt: paths=source_relative
+inputs:
+    - directory: proto
