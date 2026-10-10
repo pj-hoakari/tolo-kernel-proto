@@ -18,6 +18,14 @@ message Point {
   PointType type = 2;
   bool is_boundary = 3;
   bool boundary_active = 4;
+  BoundaryDirection boundary_direction = 5;
+}
+
+enum BoundaryDirection {
+  BOUNDARY_DIRECTION_UNSPECIFIED = 0;
+  BOUNDARY_DIRECTION_ENTRY = 1;
+  BOUNDARY_DIRECTION_EXIT = 2;
+  BOUNDARY_DIRECTION_ENTRY_AND_EXIT = 3;
 }
 
 enum PointType {
