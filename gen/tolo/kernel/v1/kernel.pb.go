@@ -26,9 +26,9 @@ type PointType int32
 
 const (
 	PointType_POINT_TYPE_UNSPECIFIED        PointType = 0
-	PointType_POINT_TYPE_GOAL               PointType = 1 // 目標
-	PointType_POINT_TYPE_GOAL_TRANSIT_MIXED PointType = 2 // 通過目標混在
-	PointType_POINT_TYPE_TRANSIT_ONLY       PointType = 3 // 通過専用
+	PointType_POINT_TYPE_GOAL               PointType = 1
+	PointType_POINT_TYPE_GOAL_TRANSIT_MIXED PointType = 2
+	PointType_POINT_TYPE_TRANSIT_ONLY       PointType = 3
 )
 
 // Enum value maps for PointType.
@@ -78,8 +78,8 @@ type DirectionAttribute int32
 
 const (
 	DirectionAttribute_DIRECTION_ATTRIBUTE_UNSPECIFIED DirectionAttribute = 0
-	DirectionAttribute_DIRECTION_ATTRIBUTE_ONE_WAY     DirectionAttribute = 1 // 一方通行（from→to）
-	DirectionAttribute_DIRECTION_ATTRIBUTE_BOTH_WAYS   DirectionAttribute = 2 // 両通行
+	DirectionAttribute_DIRECTION_ATTRIBUTE_ONE_WAY     DirectionAttribute = 1
+	DirectionAttribute_DIRECTION_ATTRIBUTE_BOTH_WAYS   DirectionAttribute = 2
 )
 
 // Enum value maps for DirectionAttribute.
@@ -127,8 +127,8 @@ type RiskKind int32
 
 const (
 	RiskKind_RISK_KIND_UNSPECIFIED     RiskKind = 0
-	RiskKind_RISK_KIND_PUNCTURE        RiskKind = 1 // パンク（容量ヒント持ちスカラールートが容量到達）
-	RiskKind_RISK_KIND_HIGH_STAGNATION RiskKind = 2 // 高停滞（履歴パーセンタイル以上かつ上昇幅一定以上）
+	RiskKind_RISK_KIND_PUNCTURE        RiskKind = 1
+	RiskKind_RISK_KIND_HIGH_STAGNATION RiskKind = 2
 )
 
 // Enum value maps for RiskKind.
@@ -172,11 +172,10 @@ func (RiskKind) EnumDescriptor() ([]byte, []int) {
 	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{2}
 }
 
-// グラフ: 現場の接続関係をポイントとルートで表すグラフ（構造の正本はグラフ編集）
 type Graph struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	EventId       string                 `protobuf:"bytes,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`          // グラフはイベント単位
-	RevisionId    string                 `protobuf:"bytes,2,opt,name=revision_id,json=revisionId,proto3" json:"revision_id,omitempty"` // グラフ版（下流は現在の版を消費）
+	EventId       string                 `protobuf:"bytes,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
+	RevisionId    string                 `protobuf:"bytes,2,opt,name=revision_id,json=revisionId,proto3" json:"revision_id,omitempty"`
 	Points        []*Point               `protobuf:"bytes,3,rep,name=points,proto3" json:"points,omitempty"`
 	Routes        []*Route               `protobuf:"bytes,4,rep,name=routes,proto3" json:"routes,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -241,13 +240,12 @@ func (x *Graph) GetRoutes() []*Route {
 	return nil
 }
 
-// ポイント: 停滞箇所または分岐合流の結節点
 type Point struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	PointId        string                 `protobuf:"bytes,1,opt,name=point_id,json=pointId,proto3" json:"point_id,omitempty"`
 	Type           PointType              `protobuf:"varint,2,opt,name=type,proto3,enum=tolo.kernel.v1.PointType" json:"type,omitempty"`
-	IsBoundary     bool                   `protobuf:"varint,3,opt,name=is_boundary,json=isBoundary,proto3" json:"is_boundary,omitempty"`             // 入退出点
-	BoundaryActive bool                   `protobuf:"varint,4,opt,name=boundary_active,json=boundaryActive,proto3" json:"boundary_active,omitempty"` // 有効な入退出点か（Open/Closed モード判定に使用）
+	IsBoundary     bool                   `protobuf:"varint,3,opt,name=is_boundary,json=isBoundary,proto3" json:"is_boundary,omitempty"`
+	BoundaryActive bool                   `protobuf:"varint,4,opt,name=boundary_active,json=boundaryActive,proto3" json:"boundary_active,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -310,14 +308,13 @@ func (x *Point) GetBoundaryActive() bool {
 	return false
 }
 
-// ルート: ポイント間の通路
 type Route struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RouteId       string                 `protobuf:"bytes,1,opt,name=route_id,json=routeId,proto3" json:"route_id,omitempty"`
 	FromPointId   string                 `protobuf:"bytes,2,opt,name=from_point_id,json=fromPointId,proto3" json:"from_point_id,omitempty"`
 	ToPointId     string                 `protobuf:"bytes,3,opt,name=to_point_id,json=toPointId,proto3" json:"to_point_id,omitempty"`
-	Direction     DirectionAttribute     `protobuf:"varint,4,opt,name=direction,proto3,enum=tolo.kernel.v1.DirectionAttribute" json:"direction,omitempty"` // 方向属性
-	CapacityHint  *float64               `protobuf:"fixed64,5,opt,name=capacity_hint,json=capacityHint,proto3,oneof" json:"capacity_hint,omitempty"`       // 容量ヒント（人/分）
+	Direction     DirectionAttribute     `protobuf:"varint,4,opt,name=direction,proto3,enum=tolo.kernel.v1.DirectionAttribute" json:"direction,omitempty"`
+	CapacityHint  *float64               `protobuf:"fixed64,5,opt,name=capacity_hint,json=capacityHint,proto3,oneof" json:"capacity_hint,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -387,7 +384,6 @@ func (x *Route) GetCapacityHint() float64 {
 	return 0
 }
 
-// 観測スナップショット: 観測ウィンドウ確定分（正準単位 人/分）
 type ObservationSnapshot struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SnapshotId    string                 `protobuf:"bytes,1,opt,name=snapshot_id,json=snapshotId,proto3" json:"snapshot_id,omitempty"`
@@ -472,13 +468,12 @@ func (x *ObservationSnapshot) GetRouteScores() []*RouteScore {
 	return nil
 }
 
-// 人数スコア（ポイントの占有レベル）と占有量変化（ΔOcc）
 type PointScore struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	PointId        string                 `protobuf:"bytes,1,opt,name=point_id,json=pointId,proto3" json:"point_id,omitempty"`
 	PeopleScore    float64                `protobuf:"fixed64,2,opt,name=people_score,json=peopleScore,proto3" json:"people_score,omitempty"`
 	OccupancyDelta float64                `protobuf:"fixed64,3,opt,name=occupancy_delta,json=occupancyDelta,proto3" json:"occupancy_delta,omitempty"`
-	Exhaustive     bool                   `protobuf:"varint,4,opt,name=exhaustive,proto3" json:"exhaustive,omitempty"` // 悉皆計測か。false のスコアは容量比較・ポイント間比較に使えない
+	Exhaustive     bool                   `protobuf:"varint,4,opt,name=exhaustive,proto3" json:"exhaustive,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -541,7 +536,6 @@ func (x *PointScore) GetExhaustive() bool {
 	return false
 }
 
-// 流量スコア（方向別またはスカラー）と停滞量スコア
 type RouteScore struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
 	RouteId string                 `protobuf:"bytes,1,opt,name=route_id,json=routeId,proto3" json:"route_id,omitempty"`
@@ -550,9 +544,9 @@ type RouteScore struct {
 	//	*RouteScore_DirectionalFlow
 	//	*RouteScore_ScalarFlow
 	Flow            isRouteScore_Flow `protobuf_oneof:"flow"`
-	StagnationScore float64           `protobuf:"fixed64,4,opt,name=stagnation_score,json=stagnationScore,proto3" json:"stagnation_score,omitempty"` // 全体−流量（高停滞の主情報源）
-	TurnRatio       *float64          `protobuf:"fixed64,5,opt,name=turn_ratio,json=turnRatio,proto3,oneof" json:"turn_ratio,omitempty"`             // 方向転換率（原則内部導出。観測は任意）
-	Exhaustive      bool              `protobuf:"varint,6,opt,name=exhaustive,proto3" json:"exhaustive,omitempty"`                                   // 悉皆計測か。false のスコアは容量比較・ポイント間比較に使えない
+	StagnationScore float64           `protobuf:"fixed64,4,opt,name=stagnation_score,json=stagnationScore,proto3" json:"stagnation_score,omitempty"`
+	TurnRatio       *float64          `protobuf:"fixed64,5,opt,name=turn_ratio,json=turnRatio,proto3,oneof" json:"turn_ratio,omitempty"`
+	Exhaustive      bool              `protobuf:"varint,6,opt,name=exhaustive,proto3" json:"exhaustive,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -658,8 +652,8 @@ func (*RouteScore_ScalarFlow) isRouteScore_Flow() {}
 
 type DirectionalFlow struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Forward       float64                `protobuf:"fixed64,1,opt,name=forward,proto3" json:"forward,omitempty"`   // from→to
-	Backward      float64                `protobuf:"fixed64,2,opt,name=backward,proto3" json:"backward,omitempty"` // to→from
+	Forward       float64                `protobuf:"fixed64,1,opt,name=forward,proto3" json:"forward,omitempty"`
+	Backward      float64                `protobuf:"fixed64,2,opt,name=backward,proto3" json:"backward,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -708,8 +702,6 @@ func (x *DirectionalFlow) GetBackward() float64 {
 	return 0
 }
 
-// グラフ要素参照: ポイントまたはルートの参照（種類の意味づけは利用側が持つ）
-// 危険の種類を伴わない位置参照（トリガー発火位置・検知状態・混雑報告等）に使う
 type LocationRef struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Target:
@@ -792,9 +784,6 @@ func (*LocationRef_PointId) isLocationRef_Target() {}
 
 func (*LocationRef_RouteId) isLocationRef_Target() {}
 
-// グラフ上の配置位置: 配置系（観測点紐づけ・QR 設置箇所・スタッフ配置）の共有語彙
-// 同一のポイント／ルートへの複数配置を許す（配置は各々が独立の識別子を持つ）
-// route_position は表示用途のみ（最適化・観測スコアの算出・按分には使わない）
 type GraphAnchor struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Target:
@@ -802,7 +791,7 @@ type GraphAnchor struct {
 	//	*GraphAnchor_PointId
 	//	*GraphAnchor_RouteId
 	Target        isGraphAnchor_Target `protobuf_oneof:"target"`
-	RoutePosition *float64             `protobuf:"fixed64,3,opt,name=route_position,json=routePosition,proto3,oneof" json:"route_position,omitempty"` // ルート対象時の位置（from→to の比率 0.0〜1.0。表示用途のみ）
+	RoutePosition *float64             `protobuf:"fixed64,3,opt,name=route_position,json=routePosition,proto3,oneof" json:"route_position,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -885,7 +874,6 @@ func (*GraphAnchor_PointId) isGraphAnchor_Target() {}
 
 func (*GraphAnchor_RouteId) isGraphAnchor_Target() {}
 
-// 危険箇所: パンクまたは高停滞のポイント／ルート
 type RiskLocation struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Target:
@@ -976,7 +964,6 @@ func (*RiskLocation_PointId) isRiskLocation_Target() {}
 
 func (*RiskLocation_RouteId) isRiskLocation_Target() {}
 
-// 危険フラグ: スタッフ／オーナーの手動危険宣言
 type DangerFlag struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Target:
@@ -985,7 +972,7 @@ type DangerFlag struct {
 	//	*DangerFlag_RouteId
 	Target        isDangerFlag_Target    `protobuf_oneof:"target"`
 	Active        bool                   `protobuf:"varint,3,opt,name=active,proto3" json:"active,omitempty"`
-	OperatedBy    string                 `protobuf:"bytes,4,opt,name=operated_by,json=operatedBy,proto3" json:"operated_by,omitempty"` // user_id
+	OperatedBy    string                 `protobuf:"bytes,4,opt,name=operated_by,json=operatedBy,proto3" json:"operated_by,omitempty"`
 	OperatedAt    *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=operated_at,json=operatedAt,proto3" json:"operated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
