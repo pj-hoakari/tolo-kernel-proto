@@ -1,35 +1,36 @@
 # tolo-kernel-proto
 
-共有カーネル `tolo/kernel/v1/kernel.proto` の正本と、その配布物を持つリポジトリ
+共有カーネル`tolo/kernel/v1/kernel.proto`の原本と、その配布物を置くリポジトリ  
+hoakari-rootにある定義は参照用の写しとして扱う
 
-1 つのリリース（`vX.Y.Z`）から次の 2 つを同じ版で配布する
+1回のリリース（`vX.Y.Z`）で、次の2つを同じ版で公開する
 
 | 配布物 | 場所 | 消費側 |
 | -- | -- | -- |
-| Go モジュール | `github.com/pj-hoakari/tolo-kernel-proto` | Go のサービス |
-| ORAS の成果物（`.proto`） | `ghcr.io/pj-hoakari/tolo-kernel-proto` | Python のサービス |
+| Goモジュール | `github.com/pj-hoakari/tolo-kernel-proto` | Goのサービス |
+| ORASの成果物（`.proto`） | `ghcr.io/pj-hoakari/tolo-kernel-proto` | Pythonのサービス |
 
-Go の生成コードの import パスは `github.com/pj-hoakari/tolo-kernel-proto/gen/tolo/kernel/v1`（package `kernelv1`）  
-`kernel.proto` を import するサービスは、kernel の Go コードを自前で生成せず、このパッケージを参照する  
-同じ proto ファイルが 2 つの Go パッケージから登録されると、プロセスの起動時に panic するため
+Goの生成コードのimportパスは`github.com/pj-hoakari/tolo-kernel-proto/gen/tolo/kernel/v1`（package `kernelv1`）  
+`kernel.proto`をimportするGoのサービスは、kernelのGoコードを自前で生成せず、このパッケージを参照する  
+同じprotoファイルを2つのGoパッケージが登録すると、プロセスの起動時にpanicする
 
-## Go の消費側
+## Goの消費側
 
-`go.mod` に CLI を tool として登録する
+CLIを`go.mod`のtoolに登録する
 
 ```sh
 go get -tool github.com/pj-hoakari/tolo-kernel-proto/cmd/tolo-kernel-proto@v0.1.0
 ```
 
-埋め込まれた `kernel.proto` を buf の入力ディレクトリへ書き出す
+モジュールに埋め込んだ`kernel.proto`を、bufの入力ディレクトリへ書き出す
 
 ```sh
 go tool tolo-kernel-proto --write-proto proto
 # proto/tolo/kernel/v1/kernel.proto が作成される
 ```
 
-書き出したファイルは版が go.mod で決まるため、`.gitignore` に入れてよい  
-`buf.gen.go.yaml` では kernel を生成対象から除外し、`go_package` の上書きを無効にする
+書き出すファイルの版はgo.modで決まるので、`.gitignore`に入れてよい  
+`buf.gen.go.yaml`ではkernelを生成対象から外し、`go_package`の上書きを無効にする
 
 ```yaml
 version: v2
@@ -51,9 +52,9 @@ inputs:
         - proto/tolo/kernel
 ```
 
-## Python の消費側
+## Pythonの消費側
 
-同じ版の `.proto` を ORAS で取得し、自前で生成する
+同じ版の`.proto`をORASで取得し、各サービスで生成する
 
 ```sh
 oras pull ghcr.io/pj-hoakari/tolo-kernel-proto:0.1.0 -o proto
@@ -61,7 +62,7 @@ oras pull ghcr.io/pj-hoakari/tolo-kernel-proto:0.1.0 -o proto
 
 ## 開発
 
-ツールは mise で揃える
+ツールはmiseで入れる
 
 ```sh
 mise install
@@ -69,12 +70,12 @@ mise install
 
 | タスク | 内容 |
 | -- | -- |
-| `task proto` | `buf lint` と Go コードの再生成 |
-| `task proto:breaking` | 最新のリリースタグとの `buf breaking` |
-| `task release VERSION=vX.Y.Z` | GitHub リリースの作成 |
+| `task proto` | `buf lint`とGoコードの再生成 |
+| `task proto:breaking` | 最新のリリースタグと比べる`buf breaking` |
+| `task release VERSION=vX.Y.Z` | GitHubリリースの作成 |
 
-`kernel.proto` を変えたら `task proto` で `gen/` を更新してコミットする  
-CI は生成コードの差分、`buf lint`、`buf breaking`、`go test`、golangci-lint、actionlint を検査する
+`kernel.proto`を変更したら、`task proto`で`gen/`を更新してコミットする  
+CIは、生成コードの差分、`buf lint`、`buf breaking`、`go test`、golangci-lint、actionlintを検査する
 
 ## リリース
 
@@ -82,5 +83,5 @@ CI は生成コードの差分、`buf lint`、`buf breaking`、`go test`、golan
 task release VERSION=v0.1.0
 ```
 
-リリースの公開を契機に `publish-proto.yml` が同じ版の ORAS の成果物を公開する  
-Go モジュールの版はリリースのタグそのものになる
+リリースが公開されると、`publish-proto.yml`が同じ版のORASの成果物を公開する  
+Goモジュールの版には、リリースのタグがそのまま使われる
