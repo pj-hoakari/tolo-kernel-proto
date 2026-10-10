@@ -14,11 +14,17 @@ message Graph {
 }
 
 message Point {
+  reserved 3, 4, 5;
+  reserved "is_boundary", "boundary_active", "boundary_direction";
+
   string point_id = 1;
   PointType type = 2;
-  bool is_boundary = 3;
-  bool boundary_active = 4;
-  BoundaryDirection boundary_direction = 5;
+  Boundary boundary = 6;
+}
+
+message Boundary {
+  BoundaryDirection direction = 1;
+  bool active = 2;
 }
 
 enum BoundaryDirection {
