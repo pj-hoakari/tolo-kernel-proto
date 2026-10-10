@@ -22,6 +22,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type BoundaryDirection int32
+
+const (
+	BoundaryDirection_BOUNDARY_DIRECTION_UNSPECIFIED    BoundaryDirection = 0
+	BoundaryDirection_BOUNDARY_DIRECTION_ENTRY          BoundaryDirection = 1
+	BoundaryDirection_BOUNDARY_DIRECTION_EXIT           BoundaryDirection = 2
+	BoundaryDirection_BOUNDARY_DIRECTION_ENTRY_AND_EXIT BoundaryDirection = 3
+)
+
+// Enum value maps for BoundaryDirection.
+var (
+	BoundaryDirection_name = map[int32]string{
+		0: "BOUNDARY_DIRECTION_UNSPECIFIED",
+		1: "BOUNDARY_DIRECTION_ENTRY",
+		2: "BOUNDARY_DIRECTION_EXIT",
+		3: "BOUNDARY_DIRECTION_ENTRY_AND_EXIT",
+	}
+	BoundaryDirection_value = map[string]int32{
+		"BOUNDARY_DIRECTION_UNSPECIFIED":    0,
+		"BOUNDARY_DIRECTION_ENTRY":          1,
+		"BOUNDARY_DIRECTION_EXIT":           2,
+		"BOUNDARY_DIRECTION_ENTRY_AND_EXIT": 3,
+	}
+)
+
+func (x BoundaryDirection) Enum() *BoundaryDirection {
+	p := new(BoundaryDirection)
+	*p = x
+	return p
+}
+
+func (x BoundaryDirection) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (BoundaryDirection) Descriptor() protoreflect.EnumDescriptor {
+	return file_tolo_kernel_v1_kernel_proto_enumTypes[0].Descriptor()
+}
+
+func (BoundaryDirection) Type() protoreflect.EnumType {
+	return &file_tolo_kernel_v1_kernel_proto_enumTypes[0]
+}
+
+func (x BoundaryDirection) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use BoundaryDirection.Descriptor instead.
+func (BoundaryDirection) EnumDescriptor() ([]byte, []int) {
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{0}
+}
+
 type PointType int32
 
 const (
@@ -58,11 +110,11 @@ func (x PointType) String() string {
 }
 
 func (PointType) Descriptor() protoreflect.EnumDescriptor {
-	return file_tolo_kernel_v1_kernel_proto_enumTypes[0].Descriptor()
+	return file_tolo_kernel_v1_kernel_proto_enumTypes[1].Descriptor()
 }
 
 func (PointType) Type() protoreflect.EnumType {
-	return &file_tolo_kernel_v1_kernel_proto_enumTypes[0]
+	return &file_tolo_kernel_v1_kernel_proto_enumTypes[1]
 }
 
 func (x PointType) Number() protoreflect.EnumNumber {
@@ -71,7 +123,7 @@ func (x PointType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use PointType.Descriptor instead.
 func (PointType) EnumDescriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{0}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{1}
 }
 
 type DirectionAttribute int32
@@ -107,11 +159,11 @@ func (x DirectionAttribute) String() string {
 }
 
 func (DirectionAttribute) Descriptor() protoreflect.EnumDescriptor {
-	return file_tolo_kernel_v1_kernel_proto_enumTypes[1].Descriptor()
+	return file_tolo_kernel_v1_kernel_proto_enumTypes[2].Descriptor()
 }
 
 func (DirectionAttribute) Type() protoreflect.EnumType {
-	return &file_tolo_kernel_v1_kernel_proto_enumTypes[1]
+	return &file_tolo_kernel_v1_kernel_proto_enumTypes[2]
 }
 
 func (x DirectionAttribute) Number() protoreflect.EnumNumber {
@@ -120,7 +172,7 @@ func (x DirectionAttribute) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use DirectionAttribute.Descriptor instead.
 func (DirectionAttribute) EnumDescriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{1}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{2}
 }
 
 type RiskKind int32
@@ -156,11 +208,11 @@ func (x RiskKind) String() string {
 }
 
 func (RiskKind) Descriptor() protoreflect.EnumDescriptor {
-	return file_tolo_kernel_v1_kernel_proto_enumTypes[2].Descriptor()
+	return file_tolo_kernel_v1_kernel_proto_enumTypes[3].Descriptor()
 }
 
 func (RiskKind) Type() protoreflect.EnumType {
-	return &file_tolo_kernel_v1_kernel_proto_enumTypes[2]
+	return &file_tolo_kernel_v1_kernel_proto_enumTypes[3]
 }
 
 func (x RiskKind) Number() protoreflect.EnumNumber {
@@ -169,7 +221,7 @@ func (x RiskKind) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RiskKind.Descriptor instead.
 func (RiskKind) EnumDescriptor() ([]byte, []int) {
-	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{2}
+	return file_tolo_kernel_v1_kernel_proto_rawDescGZIP(), []int{3}
 }
 
 type Graph struct {
@@ -241,13 +293,14 @@ func (x *Graph) GetRoutes() []*Route {
 }
 
 type Point struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	PointId        string                 `protobuf:"bytes,1,opt,name=point_id,json=pointId,proto3" json:"point_id,omitempty"`
-	Type           PointType              `protobuf:"varint,2,opt,name=type,proto3,enum=tolo.kernel.v1.PointType" json:"type,omitempty"`
-	IsBoundary     bool                   `protobuf:"varint,3,opt,name=is_boundary,json=isBoundary,proto3" json:"is_boundary,omitempty"`
-	BoundaryActive bool                   `protobuf:"varint,4,opt,name=boundary_active,json=boundaryActive,proto3" json:"boundary_active,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	PointId           string                 `protobuf:"bytes,1,opt,name=point_id,json=pointId,proto3" json:"point_id,omitempty"`
+	Type              PointType              `protobuf:"varint,2,opt,name=type,proto3,enum=tolo.kernel.v1.PointType" json:"type,omitempty"`
+	IsBoundary        bool                   `protobuf:"varint,3,opt,name=is_boundary,json=isBoundary,proto3" json:"is_boundary,omitempty"`
+	BoundaryActive    bool                   `protobuf:"varint,4,opt,name=boundary_active,json=boundaryActive,proto3" json:"boundary_active,omitempty"`
+	BoundaryDirection BoundaryDirection      `protobuf:"varint,5,opt,name=boundary_direction,json=boundaryDirection,proto3,enum=tolo.kernel.v1.BoundaryDirection" json:"boundary_direction,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *Point) Reset() {
@@ -306,6 +359,13 @@ func (x *Point) GetBoundaryActive() bool {
 		return x.BoundaryActive
 	}
 	return false
+}
+
+func (x *Point) GetBoundaryDirection() BoundaryDirection {
+	if x != nil {
+		return x.BoundaryDirection
+	}
+	return BoundaryDirection_BOUNDARY_DIRECTION_UNSPECIFIED
 }
 
 type Route struct {
@@ -1080,13 +1140,14 @@ const file_tolo_kernel_v1_kernel_proto_rawDesc = "" +
 	"\vrevision_id\x18\x02 \x01(\tR\n" +
 	"revisionId\x12-\n" +
 	"\x06points\x18\x03 \x03(\v2\x15.tolo.kernel.v1.PointR\x06points\x12-\n" +
-	"\x06routes\x18\x04 \x03(\v2\x15.tolo.kernel.v1.RouteR\x06routes\"\x9b\x01\n" +
+	"\x06routes\x18\x04 \x03(\v2\x15.tolo.kernel.v1.RouteR\x06routes\"\xed\x01\n" +
 	"\x05Point\x12\x19\n" +
 	"\bpoint_id\x18\x01 \x01(\tR\apointId\x12-\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x19.tolo.kernel.v1.PointTypeR\x04type\x12\x1f\n" +
 	"\vis_boundary\x18\x03 \x01(\bR\n" +
 	"isBoundary\x12'\n" +
-	"\x0fboundary_active\x18\x04 \x01(\bR\x0eboundaryActive\"\xe4\x01\n" +
+	"\x0fboundary_active\x18\x04 \x01(\bR\x0eboundaryActive\x12P\n" +
+	"\x12boundary_direction\x18\x05 \x01(\x0e2!.tolo.kernel.v1.BoundaryDirectionR\x11boundaryDirection\"\xe4\x01\n" +
 	"\x05Route\x12\x19\n" +
 	"\broute_id\x18\x01 \x01(\tR\arouteId\x12\"\n" +
 	"\rfrom_point_id\x18\x02 \x01(\tR\vfromPointId\x12\x1e\n" +
@@ -1152,7 +1213,12 @@ const file_tolo_kernel_v1_kernel_proto_rawDesc = "" +
 	"operatedBy\x12;\n" +
 	"\voperated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"operatedAtB\b\n" +
-	"\x06target*|\n" +
+	"\x06target*\x99\x01\n" +
+	"\x11BoundaryDirection\x12\"\n" +
+	"\x1eBOUNDARY_DIRECTION_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18BOUNDARY_DIRECTION_ENTRY\x10\x01\x12\x1b\n" +
+	"\x17BOUNDARY_DIRECTION_EXIT\x10\x02\x12%\n" +
+	"!BOUNDARY_DIRECTION_ENTRY_AND_EXIT\x10\x03*|\n" +
 	"\tPointType\x12\x1a\n" +
 	"\x16POINT_TYPE_UNSPECIFIED\x10\x00\x12\x13\n" +
 	"\x0fPOINT_TYPE_GOAL\x10\x01\x12!\n" +
@@ -1179,42 +1245,44 @@ func file_tolo_kernel_v1_kernel_proto_rawDescGZIP() []byte {
 	return file_tolo_kernel_v1_kernel_proto_rawDescData
 }
 
-var file_tolo_kernel_v1_kernel_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_tolo_kernel_v1_kernel_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_tolo_kernel_v1_kernel_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_tolo_kernel_v1_kernel_proto_goTypes = []any{
-	(PointType)(0),                // 0: tolo.kernel.v1.PointType
-	(DirectionAttribute)(0),       // 1: tolo.kernel.v1.DirectionAttribute
-	(RiskKind)(0),                 // 2: tolo.kernel.v1.RiskKind
-	(*Graph)(nil),                 // 3: tolo.kernel.v1.Graph
-	(*Point)(nil),                 // 4: tolo.kernel.v1.Point
-	(*Route)(nil),                 // 5: tolo.kernel.v1.Route
-	(*ObservationSnapshot)(nil),   // 6: tolo.kernel.v1.ObservationSnapshot
-	(*PointScore)(nil),            // 7: tolo.kernel.v1.PointScore
-	(*RouteScore)(nil),            // 8: tolo.kernel.v1.RouteScore
-	(*DirectionalFlow)(nil),       // 9: tolo.kernel.v1.DirectionalFlow
-	(*LocationRef)(nil),           // 10: tolo.kernel.v1.LocationRef
-	(*GraphAnchor)(nil),           // 11: tolo.kernel.v1.GraphAnchor
-	(*RiskLocation)(nil),          // 12: tolo.kernel.v1.RiskLocation
-	(*DangerFlag)(nil),            // 13: tolo.kernel.v1.DangerFlag
-	(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
+	(BoundaryDirection)(0),        // 0: tolo.kernel.v1.BoundaryDirection
+	(PointType)(0),                // 1: tolo.kernel.v1.PointType
+	(DirectionAttribute)(0),       // 2: tolo.kernel.v1.DirectionAttribute
+	(RiskKind)(0),                 // 3: tolo.kernel.v1.RiskKind
+	(*Graph)(nil),                 // 4: tolo.kernel.v1.Graph
+	(*Point)(nil),                 // 5: tolo.kernel.v1.Point
+	(*Route)(nil),                 // 6: tolo.kernel.v1.Route
+	(*ObservationSnapshot)(nil),   // 7: tolo.kernel.v1.ObservationSnapshot
+	(*PointScore)(nil),            // 8: tolo.kernel.v1.PointScore
+	(*RouteScore)(nil),            // 9: tolo.kernel.v1.RouteScore
+	(*DirectionalFlow)(nil),       // 10: tolo.kernel.v1.DirectionalFlow
+	(*LocationRef)(nil),           // 11: tolo.kernel.v1.LocationRef
+	(*GraphAnchor)(nil),           // 12: tolo.kernel.v1.GraphAnchor
+	(*RiskLocation)(nil),          // 13: tolo.kernel.v1.RiskLocation
+	(*DangerFlag)(nil),            // 14: tolo.kernel.v1.DangerFlag
+	(*timestamppb.Timestamp)(nil), // 15: google.protobuf.Timestamp
 }
 var file_tolo_kernel_v1_kernel_proto_depIdxs = []int32{
-	4,  // 0: tolo.kernel.v1.Graph.points:type_name -> tolo.kernel.v1.Point
-	5,  // 1: tolo.kernel.v1.Graph.routes:type_name -> tolo.kernel.v1.Route
-	0,  // 2: tolo.kernel.v1.Point.type:type_name -> tolo.kernel.v1.PointType
-	1,  // 3: tolo.kernel.v1.Route.direction:type_name -> tolo.kernel.v1.DirectionAttribute
-	14, // 4: tolo.kernel.v1.ObservationSnapshot.window_start:type_name -> google.protobuf.Timestamp
-	14, // 5: tolo.kernel.v1.ObservationSnapshot.window_end:type_name -> google.protobuf.Timestamp
-	7,  // 6: tolo.kernel.v1.ObservationSnapshot.point_scores:type_name -> tolo.kernel.v1.PointScore
-	8,  // 7: tolo.kernel.v1.ObservationSnapshot.route_scores:type_name -> tolo.kernel.v1.RouteScore
-	9,  // 8: tolo.kernel.v1.RouteScore.directional_flow:type_name -> tolo.kernel.v1.DirectionalFlow
-	2,  // 9: tolo.kernel.v1.RiskLocation.kind:type_name -> tolo.kernel.v1.RiskKind
-	14, // 10: tolo.kernel.v1.DangerFlag.operated_at:type_name -> google.protobuf.Timestamp
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	5,  // 0: tolo.kernel.v1.Graph.points:type_name -> tolo.kernel.v1.Point
+	6,  // 1: tolo.kernel.v1.Graph.routes:type_name -> tolo.kernel.v1.Route
+	1,  // 2: tolo.kernel.v1.Point.type:type_name -> tolo.kernel.v1.PointType
+	0,  // 3: tolo.kernel.v1.Point.boundary_direction:type_name -> tolo.kernel.v1.BoundaryDirection
+	2,  // 4: tolo.kernel.v1.Route.direction:type_name -> tolo.kernel.v1.DirectionAttribute
+	15, // 5: tolo.kernel.v1.ObservationSnapshot.window_start:type_name -> google.protobuf.Timestamp
+	15, // 6: tolo.kernel.v1.ObservationSnapshot.window_end:type_name -> google.protobuf.Timestamp
+	8,  // 7: tolo.kernel.v1.ObservationSnapshot.point_scores:type_name -> tolo.kernel.v1.PointScore
+	9,  // 8: tolo.kernel.v1.ObservationSnapshot.route_scores:type_name -> tolo.kernel.v1.RouteScore
+	10, // 9: tolo.kernel.v1.RouteScore.directional_flow:type_name -> tolo.kernel.v1.DirectionalFlow
+	3,  // 10: tolo.kernel.v1.RiskLocation.kind:type_name -> tolo.kernel.v1.RiskKind
+	15, // 11: tolo.kernel.v1.DangerFlag.operated_at:type_name -> google.protobuf.Timestamp
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_tolo_kernel_v1_kernel_proto_init() }
@@ -1248,7 +1316,7 @@ func file_tolo_kernel_v1_kernel_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_tolo_kernel_v1_kernel_proto_rawDesc), len(file_tolo_kernel_v1_kernel_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      4,
 			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
