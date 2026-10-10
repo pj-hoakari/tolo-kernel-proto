@@ -1,0 +1,33 @@
+name: Check Proto
+
+on:
+    pull_request:
+    push:
+        branches: [main]
+
+permissions:
+    contents: read
+
+jobs:
+    proto-check:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Go
+              uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+              with:
+                  go-version-file: go.mod
+                  cache: true
+
+            - name: Check generated Go code
+              uses: pj-hoakari/actions/proto-check@c61d08b3baf77fa710bcea9849e1c88540fd1248 # v20261003.0.0
+              with:
+                  generate-task: proto:gen:go
+                  generated-path: gen/
+
+            - name: Check breaking changes
+              run: task proto:breaking
