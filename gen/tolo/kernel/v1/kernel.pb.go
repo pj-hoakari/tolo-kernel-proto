@@ -567,8 +567,8 @@ func (x *ObservationSnapshot) GetRouteScores() []*RouteScore {
 type PointScore struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	PointId        string                 `protobuf:"bytes,1,opt,name=point_id,json=pointId,proto3" json:"point_id,omitempty"`
-	PeopleScore    float64                `protobuf:"fixed64,2,opt,name=people_score,json=peopleScore,proto3" json:"people_score,omitempty"`
-	OccupancyDelta float64                `protobuf:"fixed64,3,opt,name=occupancy_delta,json=occupancyDelta,proto3" json:"occupancy_delta,omitempty"`
+	PeopleScore    *float64               `protobuf:"fixed64,2,opt,name=people_score,json=peopleScore,proto3,oneof" json:"people_score,omitempty"`
+	OccupancyDelta *float64               `protobuf:"fixed64,3,opt,name=occupancy_delta,json=occupancyDelta,proto3,oneof" json:"occupancy_delta,omitempty"`
 	Exhaustive     bool                   `protobuf:"varint,4,opt,name=exhaustive,proto3" json:"exhaustive,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -612,15 +612,15 @@ func (x *PointScore) GetPointId() string {
 }
 
 func (x *PointScore) GetPeopleScore() float64 {
-	if x != nil {
-		return x.PeopleScore
+	if x != nil && x.PeopleScore != nil {
+		return *x.PeopleScore
 	}
 	return 0
 }
 
 func (x *PointScore) GetOccupancyDelta() float64 {
-	if x != nil {
-		return x.OccupancyDelta
+	if x != nil && x.OccupancyDelta != nil {
+		return *x.OccupancyDelta
 	}
 	return 0
 }
@@ -640,7 +640,7 @@ type RouteScore struct {
 	//	*RouteScore_DirectionalFlow
 	//	*RouteScore_ScalarFlow
 	Flow            isRouteScore_Flow `protobuf_oneof:"flow"`
-	StagnationScore float64           `protobuf:"fixed64,4,opt,name=stagnation_score,json=stagnationScore,proto3" json:"stagnation_score,omitempty"`
+	StagnationScore *float64          `protobuf:"fixed64,4,opt,name=stagnation_score,json=stagnationScore,proto3,oneof" json:"stagnation_score,omitempty"`
 	TurnRatio       *float64          `protobuf:"fixed64,5,opt,name=turn_ratio,json=turnRatio,proto3,oneof" json:"turn_ratio,omitempty"`
 	Exhaustive      bool              `protobuf:"varint,6,opt,name=exhaustive,proto3" json:"exhaustive,omitempty"`
 	unknownFields   protoimpl.UnknownFields
@@ -710,8 +710,8 @@ func (x *RouteScore) GetScalarFlow() float64 {
 }
 
 func (x *RouteScore) GetStagnationScore() float64 {
-	if x != nil {
-		return x.StagnationScore
+	if x != nil && x.StagnationScore != nil {
+		return *x.StagnationScore
 	}
 	return 0
 }
@@ -1199,28 +1199,31 @@ const file_tolo_kernel_v1_kernel_proto_rawDesc = "" +
 	"\n" +
 	"window_end\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\twindowEnd\x12=\n" +
 	"\fpoint_scores\x18\x05 \x03(\v2\x1a.tolo.kernel.v1.PointScoreR\vpointScores\x12=\n" +
-	"\froute_scores\x18\x06 \x03(\v2\x1a.tolo.kernel.v1.RouteScoreR\vrouteScores\"\x93\x01\n" +
+	"\froute_scores\x18\x06 \x03(\v2\x1a.tolo.kernel.v1.RouteScoreR\vrouteScores\"\xc2\x01\n" +
 	"\n" +
 	"PointScore\x12\x19\n" +
-	"\bpoint_id\x18\x01 \x01(\tR\apointId\x12!\n" +
-	"\fpeople_score\x18\x02 \x01(\x01R\vpeopleScore\x12'\n" +
-	"\x0foccupancy_delta\x18\x03 \x01(\x01R\x0eoccupancyDelta\x12\x1e\n" +
+	"\bpoint_id\x18\x01 \x01(\tR\apointId\x12&\n" +
+	"\fpeople_score\x18\x02 \x01(\x01H\x00R\vpeopleScore\x88\x01\x01\x12,\n" +
+	"\x0foccupancy_delta\x18\x03 \x01(\x01H\x01R\x0eoccupancyDelta\x88\x01\x01\x12\x1e\n" +
 	"\n" +
 	"exhaustive\x18\x04 \x01(\bR\n" +
-	"exhaustive\"\x9e\x02\n" +
+	"exhaustiveB\x0f\n" +
+	"\r_people_scoreB\x12\n" +
+	"\x10_occupancy_delta\"\xb8\x02\n" +
 	"\n" +
 	"RouteScore\x12\x19\n" +
 	"\broute_id\x18\x01 \x01(\tR\arouteId\x12L\n" +
 	"\x10directional_flow\x18\x02 \x01(\v2\x1f.tolo.kernel.v1.DirectionalFlowH\x00R\x0fdirectionalFlow\x12!\n" +
 	"\vscalar_flow\x18\x03 \x01(\x01H\x00R\n" +
-	"scalarFlow\x12)\n" +
-	"\x10stagnation_score\x18\x04 \x01(\x01R\x0fstagnationScore\x12\"\n" +
+	"scalarFlow\x12.\n" +
+	"\x10stagnation_score\x18\x04 \x01(\x01H\x01R\x0fstagnationScore\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"turn_ratio\x18\x05 \x01(\x01H\x01R\tturnRatio\x88\x01\x01\x12\x1e\n" +
+	"turn_ratio\x18\x05 \x01(\x01H\x02R\tturnRatio\x88\x01\x01\x12\x1e\n" +
 	"\n" +
 	"exhaustive\x18\x06 \x01(\bR\n" +
 	"exhaustiveB\x06\n" +
-	"\x04flowB\r\n" +
+	"\x04flowB\x13\n" +
+	"\x11_stagnation_scoreB\r\n" +
 	"\v_turn_ratio\"G\n" +
 	"\x0fDirectionalFlow\x12\x18\n" +
 	"\aforward\x18\x01 \x01(\x01R\aforward\x12\x1a\n" +
@@ -1329,6 +1332,7 @@ func file_tolo_kernel_v1_kernel_proto_init() {
 		return
 	}
 	file_tolo_kernel_v1_kernel_proto_msgTypes[3].OneofWrappers = []any{}
+	file_tolo_kernel_v1_kernel_proto_msgTypes[5].OneofWrappers = []any{}
 	file_tolo_kernel_v1_kernel_proto_msgTypes[6].OneofWrappers = []any{
 		(*RouteScore_DirectionalFlow)(nil),
 		(*RouteScore_ScalarFlow)(nil),

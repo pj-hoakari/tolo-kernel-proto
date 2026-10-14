@@ -66,8 +66,8 @@ message ObservationSnapshot {
 
 message PointScore {
   string point_id = 1;
-  double people_score = 2;
-  double occupancy_delta = 3;
+  optional double people_score = 2;
+  optional double occupancy_delta = 3;
   bool exhaustive = 4;
 }
 
@@ -77,7 +77,7 @@ message RouteScore {
     DirectionalFlow directional_flow = 2;
     double scalar_flow = 3;
   }
-  double stagnation_score = 4;
+  optional double stagnation_score = 4;
   optional double turn_ratio = 5;
   bool exhaustive = 6;
 }
