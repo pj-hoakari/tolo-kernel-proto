@@ -77,7 +77,9 @@ mise install
 | `task release VERSION=vX.Y.Z` | GitHubリリースの作成 |
 
 `kernel.proto`を変更したら、`task proto`で`gen/`を更新してコミットする  
-CIは、生成コードの差分、`buf lint`、`buf breaking`、`go test`、golangci-lint、actionlintを検査する
+CIは、生成コードの差分、`buf lint`、`buf breaking`、`go test`、golangci-lint、actionlintを検査する  
+互換性を意図して壊すときは、`ALLOW_BREAKING=true task proto:breaking`で検査する。違反を表示したうえで成功として終わる  
+CIの`proto-breaking`ジョブは必須のチェックではないため、失敗したままでもマージできる。マージしたあとは、次のリリースタグを打つまでこのジョブが失敗し続ける
 
 ## リリース
 
