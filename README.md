@@ -8,7 +8,7 @@ hoakari-rootにある定義は参照用の写しとして扱う
 | 配布物 | 場所 | 消費側 |
 | -- | -- | -- |
 | Goモジュール | `github.com/pj-hoakari/tolo-kernel-proto` | Goのサービス |
-| ORASの成果物（`.proto`） | `ghcr.io/pj-hoakari/tolo-kernel-proto` | Pythonのサービス |
+| ORASの成果物（`.proto`） | `ghcr.io/pj-hoakari/tolo-kernel-proto` | Goを使わない消費側（Pythonのサービス、スタッフアプリ） |
 
 Goの生成コードのimportパスは`github.com/pj-hoakari/tolo-kernel-proto/gen/tolo/kernel/v1`（package `kernelv1`）  
 `kernel.proto`をimportするGoのサービスは、kernelのGoコードを自前で生成せず、このパッケージを参照する  
@@ -52,9 +52,11 @@ inputs:
         - proto/tolo/kernel
 ```
 
-## Pythonの消費側
+## Goを使わない消費側
 
-同じ版の`.proto`をORASで取得し、各サービスで生成する
+同じ版の`.proto`をORASで取得し、各自で生成する  
+各サービスが公開する`.proto`の成果物には`kernel.proto`を含めない。サービスの`.proto`がkernelをimportする場合は、この成果物も同じディレクトリに取得する  
+版は、取得するサービスの`go.mod`が参照する`github.com/pj-hoakari/tolo-kernel-proto`の版のうち、最も新しいものにする
 
 ```sh
 oras pull ghcr.io/pj-hoakari/tolo-kernel-proto:0.1.0 -o proto
@@ -85,3 +87,6 @@ task release VERSION=v0.1.0
 
 リリースが公開されると、`publish-proto.yml`が同じ版のORASの成果物を公開する  
 Goモジュールの版には、リリースのタグがそのまま使われる
+
+破壊的変更を含む版をリリースしたら、`kernel.proto`をimportする全サービスの`go.mod`を同じ時期にその版へ上げる  
+Goを使わない消費側は、サービスの版のうち最も新しいものに合わせて`kernel.proto`を取得するので、上げていないサービスの`.proto`と食い違う
