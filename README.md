@@ -56,7 +56,7 @@ inputs:
 
 同じ版の`.proto`をORASで取得し、各自で生成する  
 各サービスが公開する`.proto`の成果物には`kernel.proto`を含めない。サービスの`.proto`がkernelをimportする場合は、この成果物も同じディレクトリに取得する  
-版は、そのサービスの`go.mod`が参照する`github.com/pj-hoakari/tolo-kernel-proto`の版にそろえる
+版は、取得するサービスの`go.mod`が参照する`github.com/pj-hoakari/tolo-kernel-proto`の版のうち、最も新しいものにする
 
 ```sh
 oras pull ghcr.io/pj-hoakari/tolo-kernel-proto:0.1.0 -o proto
@@ -87,3 +87,6 @@ task release VERSION=v0.1.0
 
 リリースが公開されると、`publish-proto.yml`が同じ版のORASの成果物を公開する  
 Goモジュールの版には、リリースのタグがそのまま使われる
+
+破壊的変更を含む版をリリースしたら、`kernel.proto`をimportする全サービスの`go.mod`を同じ時期にその版へ上げる  
+Goを使わない消費側は、サービスの版のうち最も新しいものに合わせて`kernel.proto`を取得するので、上げていないサービスの`.proto`と食い違う
