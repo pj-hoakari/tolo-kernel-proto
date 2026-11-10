@@ -1,6 +1,6 @@
 module github.com/pj-hoakari/tolo-kernel-proto
 
-go 1.27.1
+go 1.27.3
 
 tool google.golang.org/protobuf/cmd/protoc-gen-go
 
