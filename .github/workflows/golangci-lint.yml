@@ -22,4 +22,4 @@ jobs:
                   cache: true
 
             - name: Run golangci-lint
-              uses: pj-hoakari/actions/go/lint@c61d08b3baf77fa710bcea9849e1c88540fd1248 # v20261003.0.0
+              uses: pj-hoakari/actions/go/lint@e0ffe48f766307783a545c33bc29d58362094572 # v20261113.0.0
