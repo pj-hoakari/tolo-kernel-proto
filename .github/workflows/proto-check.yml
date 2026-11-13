@@ -24,7 +24,7 @@ jobs:
                   cache: true
 
             - name: Check generated Go code
-              uses: pj-hoakari/actions/proto-check@c61d08b3baf77fa710bcea9849e1c88540fd1248 # v20261003.0.0
+              uses: pj-hoakari/actions/proto-check@e0ffe48f766307783a545c33bc29d58362094572 # v20261113.0.0
               with:
                   generate-task: proto:gen:go
                   generated-path: gen/
